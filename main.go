@@ -8,6 +8,7 @@ import (
 	"todo-app/handlers"
 
 	"github.com/gorilla/mux"
+	httpSwagger "github.com/swaggo/http-swagger"
 
 	_ "github.com/lib/pq"
 )
@@ -15,6 +16,7 @@ import (
 func main() {
 	db.Connect()
 	router := mux.NewRouter()
+	router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 	router.HandleFunc("/tasks", handlers.GetTasks).Methods("GET")
 	router.HandleFunc("/task/{id:[0-9]+}", handlers.GetTask).Methods("GET")
 	router.HandleFunc("/tasks", handlers.CreateTask).Methods("POST")
